@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>علي أبو الفاروق | صحفي وتوثيقي</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo & Amiri for Elegant Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            goldDark: '#AA7C11',
+                            green: '#004B23',
+                            greenDark: '#002B15',
+                            greenLight: '#007236',
+                            dark: '#0D1117',
+                            darkCard: '#161B22',
+                            darkAccent: '#21262D'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        amiri: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0D1117;
+            color: #E6EDF3;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF099 0%, #D4AF37 50%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-gradient {
+            border-image: linear-gradient(to bottom, #D4AF37, #004B23) 1;
+        }
+
+        .glass-card {
+            background: rgba(22, 27, 34, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .light-mode .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 75, 35, 0.2);
+            color: #1a1a1a;
+        }
+
+        /* Modal styling */
+        .modal-active {
+            display: flex !important;
+        }
+    </style>
+</head>
+<body class="dark bg-brand-dark text-gray-200 transition-colors duration-300">
+
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-card border-b border-brand-gold/20" id="mainHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-green to-brand-gold p-[2px]">
+                    <div class="w-full h-full bg-brand-dark rounded-full flex items-center justify-center font-amiri text-brand-gold font-bold text-xl group-hover:scale-105 transition-transform">
+                        ف
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-amiri font-bold text-2xl tracking-wide gold-gradient-text">علي أبو الفاروق</span>
+                    <span class="text-[10px] text-gray-400 tracking-widest -mt-1">صحفي وتوثيقي</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                <a href="#about" class="hover:text-brand-gold transition-colors">عن الصحفي</a>
+                <a href="#archive" class="hover:text-brand-gold transition-colors">الأرشيف الصحفي</a>
+                <a href="#media" class="hover:text-brand-gold transition-colors">التغطيات والمرئيات</a>
+                <a href="#impact" class="hover:text-brand-gold transition-colors">الأثر والأرقام</a>
+                <a href="#contact" class="hover:text-brand-gold transition-colors">التواصل والاستشارات</a>
+            </nav>
+
+            <!-- Actions Controls -->
+            <div class="flex items-center gap-4">
+                <button id="themeToggle" class="p-2.5 rounded-full bg-brand-darkAccent text-brand-gold hover:bg-brand-gold/20 transition-all" title="تبديل الوضع">
+                    <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
+                </button>
+
+                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-green to-brand-greenLight text-white px-5 py-2.5 rounded-lg border border-brand-gold/40 hover:brightness-110 transition-all shadow-lg text-sm font-bold">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>تواصل معي</span>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-2xl text-brand-gold focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-brand-darkCard border-b border-brand-gold/20 px-6 py-4 flex-col gap-4 text-center font-medium">
+            <a href="#about" class="py-2 hover:text-brand-gold border-b border-gray-800">عن الصحفي</a>
+            <a href="#archive" class="py-2 hover:text-brand-gold border-b border-gray-800">الأرشيف الصحفي</a>
+            <a href="#media" class="py-2 hover:text-brand-gold border-b border-gray-800">التغطيات والمرئيات</a>
+            <a href="#impact" class="py-2 hover:text-brand-gold border-b border-gray-800">الأثر والأرقام</a>
+            <a href="#contact" class="py-2 hover:text-brand-gold">التواصل والاستشارات</a>
+        </div>
+    </header>
+
+    <section id="about" class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <!-- Background Decorative Elements -->
+        <div class="absolute top-1/4 right-0 w-96 h-96 bg-brand-green/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 left-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Text & Intro -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-green/30 border border-brand-gold/30 text-brand-gold text-xs font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>توثيق ميداني وأرشيف حي</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                        عينٌ على الحقيقة.. <br>
+                        <span class="gold-gradient-text font-amiri text-5xl sm:text-6xl lg:text-7xl">علي أبو الفاروق</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        صحفي وموثق ميداني غطى أحداث الثورة السورية منذ بداياتها. يسعى لنقل القصة بصدق وحرفية، وأرشفة معالم النضال الشعبي والانتهاكات لضمان حماية الذاكرة الوطنية ونقل الواقع للرأي العام العالمي.
+                    </p>
+
+                    <!-- Quote Block -->
+                    <div class="p-4 rounded-r-xl border-r-4 border-brand-gold bg-brand-darkAccent/50 italic font-amiri text-xl text-brand-goldLight my-4">
+                        "التوثيق ليس مجرد نقلٍ للخبر، بل هو حراسةٌ للذاكرة ضد النسيان والزييف."
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#archive" class="px-8 py-3.5 rounded-lg bg-gradient-to-r from-brand-goldDark via-brand-gold to-brand-goldLight text-brand-dark font-bold hover:shadow-lg hover:shadow-brand-gold/20 transition-all">
+                            استكشف الأرشيف
+                        </a>
+                        <a href="#media" class="px-8 py-3.5 rounded-lg border border-brand-gold text-brand-gold hover:bg-brand-gold/10 font-bold transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i>
+                             مشاهدة التغطيات
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Visual / Badge -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+                        <!-- Outer Decorative Rings -->
+                        <div class="absolute inset-0 rounded-full border-2 border-dashed border-brand-gold/40 animate-spin-slow"></div>
+                        <div class="absolute inset-4 rounded-full border border-brand-green shadow-2xl"></div>
+                        
+                        <!-- Main Frame -->
+                        <div class="absolute inset-6 rounded-full overflow-hidden bg-brand-darkCard border-2 border-brand-gold flex items-center justify-center shadow-2xl group">
+                            <!-- Placeholder Emblem or Journalist Image -->
+                            <div class="text-center p-6">
+                                <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-brand-green/40 border border-brand-gold flex items-center justify-center text-brand-gold text-4xl font-amiri font-bold">
+                                    ف
+                                </div>
+                                <h3 class="font-amiri font-bold text-2xl text-brand-gold">علي أبو الفاروق</h3>
+                                <p class="text-xs text-gray-400 mt-1">تغطيات ميدانية &bull; تحقيقات &bull; توثيق</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badges -->
+                        <div class="absolute -bottom-2 -right-2 bg-brand-darkCard border border-brand-gold p-3 rounded-xl shadow-xl flex items-center gap-3">
+                            <div class="text-brand-gold text-2xl"><i class="fa-solid fa-camera-retro"></i></div>
+                            <div>
+                                <p class="text-xs text-gray-400">تغطيات صورية</p>
+                                <p class="text-sm font-bold text-white">+1,500 صورة</p>
+                            </div>
+                        </div>
+
+                        <div class="absolute -top-2 -left-2 bg-brand-darkCard border border-brand-green p-3 rounded-xl shadow-xl flex items-center gap-3">
+                            <div class="text-brand-greenLight text-2xl"><i class="fa-solid fa-newspaper"></i></div>
+                            <div>
+                                <p class="text-xs text-gray-400">تقارير منشورة</p>
+                                <p class="text-sm font-bold text-white">+400 تقرير</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="impact" class="py-16 bg-brand-darkCard border-y border-brand-gold/10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                
+                <div class="p-6 rounded-2xl bg-brand-dark/50 border border-brand-gold/10 hover:border-brand-gold/40 transition-all">
+                    <i class="fa-solid fa-box-archive text-3xl text-brand-gold mb-3"></i>
+                    <div class="text-3xl sm:text-4xl font-black text-white my-1">+12</div>
+                    <div class="text-xs sm:text-sm text-gray-400">سنوات توثيق وتغطية</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-brand-dark/50 border border-brand-gold/10 hover:border-brand-gold/40 transition-all">
+                    <i class="fa-solid fa-file-pen text-3xl text-brand-gold mb-3"></i>
+                    <div class="text-3xl sm:text-4xl font-black text-white my-1">+450</div>
+                    <div class="text-xs sm:text-sm text-gray-400">مقالات وتقارير ميدانية</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-brand-dark/50 border border-brand-gold/10 hover:border-brand-gold/40 transition-all">
+                    <i class="fa-solid fa-photo-film text-3xl text-brand-gold mb-3"></i>
+                    <div class="text-3xl sm:text-4xl font-black text-white my-1">+85</div>
+                    <div class="text-xs sm:text-sm text-gray-400">وثائق وفيديوهات مسجلة</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-brand-dark/50 border border-brand-gold/10 hover:border-brand-gold/40 transition-all">
+                    <i class="fa-solid fa-award text-3xl text-brand-gold mb-3"></i>
+                    <div class="text-3xl sm:text-4xl font-black text-white my-1">6</div>
+                    <div class="text-xs sm:text-sm text-gray-400">جوائز وتكريمات صحفية</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="archive" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl sm:text-4xl font-extrabold gold-gradient-text font-amiri mb-4">أرشيف الثورة والتغطيات</h2>
+                <p class="text-gray-400">سجل متكامل للأحداث والتقارير الميدانية مقسمة حسب الفئات والتاريخ لتسهيل الوصول والتصفح.</p>
+            </div>
+
+            <!-- Controls: Search & Category Filter -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 bg-brand-darkCard p-4 rounded-xl border border-brand-gold/20">
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="searchInput" onkeyup="filterArchive()" placeholder="ابحث في الأرشيف (كلمة مفتاحية، مدينة...)" class="w-full bg-brand-dark border border-gray-700 rounded-lg pr-11 pl-4 py-2.5 text-sm focus:outline-none focus:border-brand-gold text-white">
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-center">
+                    <button onclick="setFilter('all')" class="filter-btn active px-4 py-2 rounded-lg text-xs font-bold transition-all bg-brand-gold text-brand-dark">الكل</button>
+                    <button onclick="setFilter('article')" class="filter-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-brand-darkAccent text-gray-300 hover:text-brand-gold">مقالات وتحليلات</button>
+                    <button onclick="setFilter('report')" class="filter-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-brand-darkAccent text-gray-300 hover:text-brand-gold">تقارير ميدانية</button>
+                    <button onclick="setFilter('doc')" class="filter-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-brand-darkAccent text-gray-300 hover:text-brand-gold">وثائقيات وتحقيقات</button>
+                </div>
+            </div>
+
+            <!-- Archive Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="archiveGrid">
+                
+                <!-- Archive Card 1 -->
+                <div class="archive-card glass-card rounded-xl overflow-hidden hover:border-brand-gold transition-all duration-300 flex flex-col" data-category="report">
+                    <div class="relative h-48 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80" alt="معركة التوثيق" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <span class="absolute top-3 right-3 bg-brand-green/90 text-white text-[10px] font-bold px-3 py-1 rounded-full border border-brand-gold/30">تقرير ميداني</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-brand-gold mb-2 flex items-center gap-2">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>15 مارس 2018</span>
+                                <span>&bull;</span>
+                                <span>حلب</span>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3 hover:text-brand-gold transition-colors">صمود الأحياء الشرقية: شهادات تحت المحاصرة</h3>
+                            <p class="text-gray-400 text-sm line-clamp-3 mb-4">
+                                توثيق حي لليوميات المعيشية داخل الأحياء المحاصرة، وتسليط الضوء على عمل الكوادر الطبية والفرق الإغاثية تحت القصف المستمر.
+                            </p>
+                        </div>
+                        <button onclick="openModal('صمود الأحياء الشرقية', 'تفاصيل التقرير الصحفي الميداني الكامل الذي غطى الأحياء الشرقية بحلب مع التوثيقات الرقمية للشهادات الحية للدفعة الأولى من المهجرين قسراً.')" class="w-full text-center py-2 rounded border border-brand-gold/40 text-brand-gold text-xs font-bold hover:bg-brand-gold hover:text-brand-dark transition-all">
+                            قراءة المادة الكاملة
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Archive Card 2 -->
+                <div class="archive-card glass-card rounded-xl overflow-hidden hover:border-brand-gold transition-all duration-300 flex flex-col" data-category="article">
+                    <div class="relative h-48 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80" alt="تحليل صحفي" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <span class="absolute top-3 right-3 bg-brand-gold/90 text-brand-dark text-[10px] font-bold px-3 py-1 rounded-full">مقالة رأي</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-brand-gold mb-2 flex items-center gap-2">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>10 أكتوبر 2020</span>
+                                <span>&bull;</span>
+                                <span>تحليل سياسي</span>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3 hover:text-brand-gold transition-colors">أهمية الأرشفة الرقمية في حفظ الحقوق السورية</h3>
+                            <p class="text-gray-400 text-sm line-clamp-3 mb-4">
+                                دراسة تحليلية تناقش آليات حماية المحتوى الإعلامي للثورة من التغييب الرقمي وقرارات الحذف على شبكات التواصل الاجتماعي.
+                            </p>
+                        </div>
+                        <button onclick="openModal('أهمية الأرشفة الرقمية', 'تناول هذا المقال أهم القواعد التقنية والمعايير الدولية المعتمدة في حفظ أدلة الانتهاكات وتوثيق الشهادات لاستخدامها في العدالة الانتقالية.')" class="w-full text-center py-2 rounded border border-brand-gold/40 text-brand-gold text-xs font-bold hover:bg-brand-gold hover:text-brand-dark transition-all">
+                            قراءة المادة الكاملة
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Archive Card 3 -->
+                <div class="archive-card glass-card rounded-xl overflow-hidden hover:border-brand-gold transition-all duration-300 flex flex-col" data-category="doc">
+                    <div class="relative h-48 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" alt="وثائقي" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <span class="absolute top-3 right-3 bg-red-800 text-white text-[10px] font-bold px-3 py-1 rounded-full">تحقيق استقصائي</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-brand-gold mb-2 flex items-center gap-2">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>22 مايو 2021</span>
+                                <span>&bull;</span>
+                                <span>إدلب</span>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3 hover:text-brand-gold transition-colors">حياة تحت الركام: التعليم في المخيمات</h3>
+                            <p class="text-gray-400 text-sm line-clamp-3 mb-4">
+                                تحقيق استقصائي يستعرض التحديات التي تواجه العملية التعليمية للأطفال النازحين في الشمال السوري واستجابة المبادرات التطوعية.
+                            </p>
+                        </div>
+                        <button onclick="openModal('حياة تحت الركام', 'عرض مفصل للوثائقي الاستقصائي مع ملفات المرفقات والشهادات الميدانية المصورة مع المعلمين والأهالي.')" class="w-full text-center py-2 rounded border border-brand-gold/40 text-brand-gold text-xs font-bold hover:bg-brand-gold hover:text-brand-dark transition-all">
+                            قراءة المادة الكاملة
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="media" class="py-20 bg-brand-darkCard border-t border-brand-gold/10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold gold-gradient-text font-amiri mb-3">التغطيات المرئية والوثائقيات</h2>
+                    <p class="text-gray-400">شاهد باقة من التقارير المصورة والبرامج الوثائقية التي تم إنتاجها في الميدان.</p>
+                </div>
+            </div>
+
+            <!-- Video Player Preview Block -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Main Featured Player Showcase -->
+                <div class="lg:col-span-8 glass-card rounded-2xl overflow-hidden p-2 border border-brand-gold/30">
+                    <div class="relative aspect-video rounded-xl overflow-hidden bg-black flex items-center justify-center group" id="videoPreviewContainer">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80" alt="فيديو رئيسي" class="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity">
+                        <button onclick="playFeaturedVideo()" class="absolute w-20 h-20 rounded-full bg-brand-gold/90 text-brand-dark text-3xl flex items-center justify-center pl-1 shadow-2xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black via-black/60 to-transparent">
+                            <span class="bg-brand-green text-white text-xs font-bold px-3 py-1 rounded-full">وثائقي مميز</span>
+                            <h3 class="text-2xl font-bold text-white mt-2" id="videoTitle">ذاكرة الميدان: عشر سنوات من التوثيق</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playlist Column -->
+                <div class="lg:col-span-4 space-y-4">
+                    <h4 class="font-bold text-brand-gold text-lg mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-list-ul"></i>
+                        <span>قائمة التغطيات</span>
+                    </h4>
+
+                    <div onclick="switchVideo('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80', 'ذاكرة الميدان: عشر سنوات من التوثيق')" class="p-3 rounded-xl bg-brand-dark/80 border border-brand-gold/30 cursor-pointer hover:border-brand-gold transition-all flex gap-3 items-center">
+                        <div class="w-24 h-16 rounded-lg bg-gray-700 overflow-hidden relative flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold line-clamp-1">ذاكرة الميدان: 10 سنوات</h5>
+                            <p class="text-xs text-gray-400 mt-1">مدة العرض: 15:30 دقيقة</p>
+                        </div>
+                    </div>
+
+                    <div onclick="switchVideo('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80', 'عين على التهجير: شهادات النازحين')" class="p-3 rounded-xl bg-brand-dark/80 border border-gray-800 cursor-pointer hover:border-brand-gold transition-all flex gap-3 items-center">
+                        <div class="w-24 h-16 rounded-lg bg-gray-700 overflow-hidden relative flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold line-clamp-1">عين على التهجير: الشهادات</h5>
+                            <p class="text-xs text-gray-400 mt-1">مدة العرض: 08:45 دقيقة</p>
+                        </div>
+                    </div>
+
+                    <div onclick="switchVideo('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=80', 'تقرير صحفي: حماية الأرشيف الإعلامي')" class="p-3 rounded-xl bg-brand-dark/80 border border-gray-800 cursor-pointer hover:border-brand-gold transition-all flex gap-3 items-center">
+                        <div class="w-24 h-16 rounded-lg bg-gray-700 overflow-hidden relative flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold line-clamp-1">تقرير: حماية الأرشيف الإعلامي</h5>
+                            <p class="text-xs text-gray-400 mt-1">مدة العرض: 12:10 دقيقة</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 border border-brand-gold/30 shadow-2xl relative overflow-hidden">
+                
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold gold-gradient-text font-amiri mb-3">التواصل والتعاون الصحفي</h2>
+                    <p class="text-gray-300 text-sm">لطلب الاستشارات الإعلامية، أو الحصول على مواد أرشيفية للتحقيقات والمؤسسات الدولية، يمكنك ارسال رسالتك مباشرة.</p>
+                </div>
+
+                <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-brand-gold mb-2">الاسم الكامل</label>
+                            <input type="text" required placeholder="أدخل اسمك الكريم" class="w-full bg-brand-dark/80 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-gold mb-2">البريد الإلكتروني</label>
+                            <input type="email" required placeholder="name@example.com" class="w-full bg-brand-dark/80 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-brand-gold mb-2">نوع الطلب / الموضوع</label>
+                        <select class="w-full bg-brand-dark/80 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold">
+                            <option>طلب مادة أرشيفية / وثائق</option>
+                            <option>استشارة صحفية أو توثيقية</option>
+                            <option>تعاون إعلامي أو مشاركة في برنامج</option>
+                            <option>موضوع آخر</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-brand-gold mb-2">تفاصيل الرسالة</label>
+                        <textarea rows="5" required placeholder="اكتب رسالتك بالتفصيل هنا..." class="w-full bg-brand-dark/80 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-green to-brand-greenLight border border-brand-gold text-white font-bold text-base hover:brightness-110 transition-all shadow-xl">
+                        إرسال الرسالة الآن
+                    </button>
+                </form>
+
+                <!-- Feedback Message Container -->
+                <div id="formFeedback" class="hidden mt-6 p-4 rounded-xl bg-brand-green/30 border border-brand-gold text-brand-gold text-center text-sm font-bold">
+                    تم إرسال رسالتك بنجاح! سيتواصل معك الصحفي علي أبو الفاروق في أقرب وقت.
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-darkCard border-t border-brand-gold/20 py-12 text-center text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 space-y-6">
+            <div class="font-amiri text-2xl font-bold gold-gradient-text">علي أبو الفاروق</div>
+            <p class="text-xs text-gray-400 max-w-md mx-auto">الموقع الرسمي والتوثيقي المخصص لأرشفة وحفظ التغطيات الصحفية الميدانية.</p>
+            
+            <!-- Social Icons -->
+            <div class="flex justify-center gap-6 text-xl text-brand-gold">
+                <a href="#" class="hover:scale-125 transition-transform"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" class="hover:scale-125 transition-transform"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:scale-125 transition-transform"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#" class="hover:scale-125 transition-transform"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+
+            <div class="border-t border-gray-800 pt-6 text-xs text-gray-500">
+                جميع الحقوق محفوظة &copy; <span id="year"></span> الصحفي علي أبو الفاروق
+            </div>
+        </div>
+    </footer>
+
+    <div id="articleModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="glass-card max-w-2xl w-full rounded-2xl p-6 sm:p-8 relative border border-brand-gold">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-gray-400 hover:text-brand-gold text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="modalTitle" class="text-2xl font-bold font-amiri text-brand-gold mb-4">عنوان المادة</h3>
+            <div id="modalContent" class="text-gray-300 text-sm leading-relaxed mb-6">
+                محتوى المادة...
+            </div>
+            <button onclick="closeModal()" class="bg-brand-gold text-brand-dark font-bold px-6 py-2 rounded-lg text-xs">
+                إغلاق النافذة
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set current dynamic year in footer
+        document.getElementById('year').innerText = new Date().getFullYear();
+
+        // Dark/Light Theme Toggle Switcher Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                document.body.style.backgroundColor = '#f8f9fa';
+                document.body.style.color = '#111';
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.body.style.backgroundColor = '#0D1117';
+                document.body.style.color = '#E6EDF3';
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Mobile Nav Drawer Toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        // Archive Filtering Logic
+        function setFilter(category) {
+            const cards = document.querySelectorAll('.archive-card');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-brand-gold', 'text-brand-dark');
+                btn.classList.add('bg-brand-darkAccent', 'text-gray-300');
+            });
+
+            event.target.classList.remove('bg-brand-darkAccent', 'text-gray-300');
+            event.target.classList.add('bg-brand-gold', 'text-brand-dark');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search Bar Filtering Logic
+        function filterArchive() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.archive-card');
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Video Playlist Switcher
+        function switchVideo(imgSrc, title) {
+            const container = document.getElementById('videoPreviewContainer');
+            const videoTitle = document.getElementById('videoTitle');
+            container.querySelector('img').src = imgSrc;
+            videoTitle.innerText = title;
+        }
+
+        function playFeaturedVideo() {
+            alert('سيبدأ تشغيل الفيديو المرئي التوثيقي الخاص بالصحفي علي أبو الفاروق.');
+        }
+
+        // Modal Functionalities
+        function openModal(title, content) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalContent').innerText = content;
+            document.getElementById('articleModal').classList.add('modal-active');
+        }
+
+        function closeModal() {
+            document.getElementById('articleModal').classList.remove('modal-active');
+        }
+
+        // Form Submit Simulation
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('formFeedback');
+            feedback.classList.remove('hidden');
+            document.getElementById('contactForm').reset();
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 6000);
+        }
+    </script>
+</body>
+</html>
